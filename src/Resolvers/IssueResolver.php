@@ -46,6 +46,7 @@ class IssueResolver
             $item->setData([
                 'message' => $message,
                 'trace' => $context['exception']->getTrace(),
+                'type'    => 'LogRecord@UnCaughtException',
             ]);
         } else {
             if (gettype($messageError) === 'string') {
@@ -56,8 +57,9 @@ class IssueResolver
             } else {
                 if ($messageError instanceof LogRecord) {
                     $item->setData([
-                        'message' => $messageError->message,
-                        'type'    => 'LogRecord',
+                        'message' => $this->parseMessageInCaughtException($messageError),
+                        'trace' => $this->parseTraceInCaughtException($messageError),
+                        'type'    => 'LogRecord@CaughtException',
                     ]);
                 } else {
                     $item->setData([
@@ -87,7 +89,22 @@ class IssueResolver
         );
         $item->setDeviceData($this->config->getDeviceData());
         
-
         return $item;
+    }
+
+    private function parseMessageInCaughtException(LogRecord $messageError) {
+        $items = explode("\n", $messageError->message);
+        if (count($items)) {
+            return $items[0];
+        }
+        return $messageError->message;
+    }
+
+    private function parseTraceInCaughtException($messageError) {
+        $items = explode("\n", $messageError->message);
+        if (count($items) <= 2) {
+            return [];
+        }
+        return array_slice($items, 2);
     }
 }
