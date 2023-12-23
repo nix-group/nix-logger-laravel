@@ -54,10 +54,17 @@ class IssueResolver
                     'type' => gettype($messageError),
                 ]);
             } else {
-                $item->setData([
-                    'message' => Helper::encode($messageError),
-                    'type' => gettype($messageError),
-                ]);
+                if ($messageError instanceof LogRecord) {
+                    $item->setData([
+                        'message' => $messageError->message,
+                        'type'    => 'LogRecord',
+                    ]);
+                } else {
+                    $item->setData([
+                        'message' => Helper::encode($messageError),
+                        'type' => gettype($messageError),
+                    ]);
+                }
             }
         }
         

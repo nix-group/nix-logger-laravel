@@ -43,8 +43,8 @@ class HttpClient implements HttpClientInterface
         curl_setopt($curlHandle, CURLOPT_HTTPHEADER, $requestHeaders);
 
         // curl_setopt($curlHandle, \CURLOPT_USERAGENT, $this->sdkIdentifier . '/' . $this->sdkVersion);
-        // curl_setopt($curlHandle, \CURLOPT_TIMEOUT, $options->getHttpTimeout());
-        // curl_setopt($curlHandle, \CURLOPT_CONNECTTIMEOUT, $options->getHttpConnectTimeout());
+        curl_setopt($curlHandle, \CURLOPT_TIMEOUT, 5);
+        curl_setopt($curlHandle, \CURLOPT_CONNECTTIMEOUT, 5);
         curl_setopt($curlHandle, \CURLOPT_ENCODING, '');
         curl_setopt($curlHandle, \CURLOPT_POST, 1);
         curl_setopt($curlHandle, \CURLOPT_POSTFIELDS, $requestPayload);
@@ -52,21 +52,21 @@ class HttpClient implements HttpClientInterface
         // curl_setopt($curlHandle, \CURLOPT_HEADERFUNCTION, $responseHeaderCallback);
         curl_setopt($curlHandle, \CURLOPT_HTTP_VERSION, \CURL_HTTP_VERSION_1_1);
 
-        // $httpSslVerifyPeer = $options->getHttpSslVerifyPeer();
-        // if ($httpSslVerifyPeer) {
-        //     curl_setopt($curlHandle, \CURLOPT_SSL_VERIFYPEER, true);
-        // }
+        $httpSslVerifyPeer = null;
+        if ($httpSslVerifyPeer !== null) {
+            curl_setopt($curlHandle, \CURLOPT_SSL_VERIFYPEER, true);
+        }
 
-        // $httpProxy = $options->getHttpProxy();
-        // if ($httpProxy !== null) {
-        //     curl_setopt($curlHandle, \CURLOPT_PROXY, $httpProxy);
-        //     curl_setopt($curlHandle, \CURLOPT_HEADEROPT, \CURLHEADER_SEPARATE);
-        // }
+        $httpProxy = false;
+        if ($httpProxy !== null) {
+            curl_setopt($curlHandle, \CURLOPT_PROXY, $httpProxy);
+            curl_setopt($curlHandle, \CURLOPT_HEADEROPT, \CURLHEADER_SEPARATE);
+        }
 
-        // $httpProxyAuthentication = $options->getHttpProxyAuthentication();
-        // if ($httpProxyAuthentication !== null) {
-        //     curl_setopt($curlHandle, \CURLOPT_PROXYUSERPWD, $httpProxyAuthentication);
-        // }
+        $httpProxyAuthentication = null;
+        if ($httpProxyAuthentication !== null) {
+            curl_setopt($curlHandle, \CURLOPT_PROXYUSERPWD, $httpProxyAuthentication);
+        }
 
         $body = curl_exec($curlHandle);
 

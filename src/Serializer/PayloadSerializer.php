@@ -24,8 +24,6 @@ final class PayloadSerializer implements PayloadSerializerInterface
             'data' => $item->getData(),
             'extraData' => $item->getExtraData(),
         ];
-        // dd($payload);
-        // return $payload;
 
         return sprintf('%s', Helper::encode($payload));
     }

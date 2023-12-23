@@ -45,9 +45,12 @@ class Client
         $this->httpClient = new HttpClient($this->config);
     }
 
+    /**
+     * @var LogRecord|Throwable|string|Stringable $message,
+     */
     public function report(
         string $level,
-        LogRecord|Throwable|string|Stringable $message,
+        $message,
         array $context = [],
     ) {
         $issueResolver = new IssueResolver($this->config, $this->request);
@@ -58,7 +61,7 @@ class Client
         return $response;
     }
 
-    public function log($level, string|Stringable $message, array $context = []): void
+    public function log($level, $message, array $context = []): void
     {
         $this->report($level, $message, $context);
     }
