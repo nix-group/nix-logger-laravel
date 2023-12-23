@@ -28,7 +28,7 @@ final class Response
     private $error;
 
     /**
-     * @param string[][] $headers
+     * @param  string[][]  $headers
      */
     public function __construct(int $statusCode, array $headers, string $error)
     {
@@ -61,7 +61,7 @@ final class Response
      */
     public function getHeader(string $header): array
     {
-        if (!$this->hasHeader($header)) {
+        if (! $this->hasHeader($header)) {
             return [];
         }
 

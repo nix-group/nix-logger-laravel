@@ -14,6 +14,16 @@ class Configuration
     /**
      * @var string
      */
+    private $environment;
+
+    /**
+     * @var string
+     */
+    private $rootPath;
+
+    /**
+     * @var string
+     */
     private $apiKey;
 
     /**
@@ -37,22 +47,25 @@ class Configuration
      */
     protected $metaData = [];
 
+    protected $timeZone;
+
     /**
      * Create a new config instance.
      *
-     * @param string $apiKey your api key
+     * @param  string  $apiKey your api key
+     * @return void
      *
      * @throws \InvalidArgumentException
-     *
-     * @return void
      */
     public function __construct($apiKey)
     {
-        if (!is_string($apiKey)) {
+        if (! is_string($apiKey)) {
             throw new InvalidArgumentException('Invalid API key');
         }
 
         $this->apiKey = $apiKey;
+        $this->mergeDeviceData(['runtimeVersions' => ['php' => phpversion()]]);
+        $this->timeZone = date_default_timezone_get();
     }
 
     /**
@@ -63,6 +76,42 @@ class Configuration
     public function getApiKey()
     {
         return $this->apiKey;
+    }
+
+    public function setEnvironment($environment): self
+    {
+        $this->environment = $environment;
+
+        return $this;
+    }
+
+    public function getEnvironment()
+    {
+        return $this->environment;
+    }
+
+    public function setRootPath($rootPath): self
+    {
+        $this->rootPath = $rootPath;
+
+        return $this;
+    }
+
+    public function getRootPath()
+    {
+        return $this->rootPath;
+    }
+
+    public function setTimeZone($timeZone): self
+    {
+        $this->timeZone = $timeZone;
+
+        return $this;
+    }
+
+    public function getTimeZone()
+    {
+        return $this->timeZone;
     }
 
     /**
@@ -82,7 +131,7 @@ class Configuration
      */
     public function buildPostItemUri()
     {
-        return $this->endpoint . '/issues';
+        return $this->endpoint.'/issues';
     }
 
     /**
@@ -93,15 +142,16 @@ class Configuration
     public function buildHeaders()
     {
         return [
-            'nix-logger-key' => $this->apiKey
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'api-key: ' . $this->apiKey,
         ];
     }
 
     /**
      * Set your app's semantic version, eg "1.2.3".
      *
-     * @param string|null $appVersion the app's version
-     *
+     * @param  string|null  $appVersion the app's version
      * @return $this
      */
     public function setAppVersion($appVersion)
@@ -114,8 +164,7 @@ class Configuration
     /**
      * Set your release stage, eg "production" or "development".
      *
-     * @param string|null $releaseStage the app's current release stage
-     *
+     * @param  string|null  $releaseStage the app's current release stage
      * @return $this
      */
     public function setReleaseStage($releaseStage)
@@ -132,8 +181,7 @@ class Configuration
      * "php", via a framework, eg "laravel", or executing through delayed
      * worker code, eg "resque".
      *
-     * @param string|null $type the current type
-     *
+     * @param  string|null  $type the current type
      * @return $this
      */
     public function setAppType($type)
@@ -156,8 +204,7 @@ class Configuration
     /**
      * Set the hostname.
      *
-     * @param string|null $hostname the hostname
-     *
+     * @param  string|null  $hostname the hostname
      * @return $this
      */
     public function setHostname($hostname)
@@ -170,8 +217,7 @@ class Configuration
     /**
      * Adds new data fields to the device data collection.
      *
-     * @param array $data an associative array containing the new data to be added
-     *
+     * @param  array  $data an associative array containing the new data to be added
      * @return $this
      */
     public function mergeDeviceData($data)
@@ -200,11 +246,11 @@ class Configuration
     {
         $disabled = explode(',', ini_get('disable_functions'));
 
-        if (function_exists('php_uname') && !in_array('php_uname', $disabled, true)) {
+        if (function_exists('php_uname') && ! in_array('php_uname', $disabled, true)) {
             return ['hostname' => php_uname('n')];
         }
 
-        if (function_exists('gethostname') && !in_array('gethostname', $disabled, true)) {
+        if (function_exists('gethostname') && ! in_array('gethostname', $disabled, true)) {
             return ['hostname' => gethostname()];
         }
 
@@ -217,9 +263,8 @@ class Configuration
      * You can use this to add custom tabs of data to each error on your
      * NixLogger dashboard.
      *
-     * @param array[] $metaData an array of arrays of custom data
-     * @param bool    $merge    should we merge the meta data
-     *
+     * @param  array[]  $metaData an array of arrays of custom data
+     * @param  bool  $merge    should we merge the meta data
      * @return $this
      */
     public function setMetaData(array $metaData, $merge = true)

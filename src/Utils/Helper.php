@@ -4,10 +4,10 @@ namespace NixLogger\Utils;
 
 class Helper
 {
-
     public static function encode($data): string
     {
         $encodedData = json_encode($data);
+
         return $encodedData;
     }
 
