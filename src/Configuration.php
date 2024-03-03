@@ -9,7 +9,17 @@ class Configuration
     /**
      * @var string
      */
-    private $endpoint = 'http://localhost:8001/api/v1';
+    private $endpoint = 'http://localhost:8005/api/v1';
+
+    /**
+     * @var string
+     */
+    private $sdkIdentifier = 'nix-logger.php';
+
+    /**
+     * @var string
+     */
+    private $version = '1.0.0';
 
     /**
      * @var string
@@ -59,7 +69,7 @@ class Configuration
      */
     public function __construct($apiKey)
     {
-        if (! is_string($apiKey)) {
+        if (!is_string($apiKey)) {
             throw new InvalidArgumentException('Invalid API key');
         }
 
@@ -88,6 +98,30 @@ class Configuration
     public function getEnvironment()
     {
         return $this->environment;
+    }
+
+    public function setSdkIdentifier($sdkIdentifier)
+    {
+        $this->sdkIdentifier = $sdkIdentifier;
+
+        return $this;
+    }
+
+    public function getSdkIdentifier()
+    {
+        return $this->sdkIdentifier;
+    }
+
+    public function setVersion($version)
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    public function getVersion()
+    {
+        return $this->version;
     }
 
     public function setRootPath($rootPath): self
@@ -131,7 +165,7 @@ class Configuration
      */
     public function buildPostItemUri()
     {
-        return $this->endpoint.'/issues';
+        return $this->endpoint . '/issues';
     }
 
     /**
@@ -246,11 +280,11 @@ class Configuration
     {
         $disabled = explode(',', ini_get('disable_functions'));
 
-        if (function_exists('php_uname') && ! in_array('php_uname', $disabled, true)) {
+        if (function_exists('php_uname') && !in_array('php_uname', $disabled, true)) {
             return ['hostname' => php_uname('n')];
         }
 
-        if (function_exists('gethostname') && ! in_array('gethostname', $disabled, true)) {
+        if (function_exists('gethostname') && !in_array('gethostname', $disabled, true)) {
             return ['hostname' => gethostname()];
         }
 

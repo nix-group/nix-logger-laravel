@@ -69,7 +69,7 @@ class IssueResolver
                 }
             }
         }
-        
+
         $item->setLevel($level);
         $item->setContext($context);
         $item->setRootPath($this->config->getRootPath());
@@ -88,11 +88,16 @@ class IssueResolver
             ],
         );
         $item->setDeviceData($this->config->getDeviceData());
-        
+        $item->setSdk([
+            'identifier' => $this->config->getSdkIdentifier(),
+            'version' => $this->config->getVersion(),
+        ]);
+
         return $item;
     }
 
-    private function parseMessageInCaughtException(LogRecord $messageError) {
+    private function parseMessageInCaughtException(LogRecord $messageError)
+    {
         $items = explode("\n", $messageError->message);
         if (count($items)) {
             return $items[0];
@@ -100,7 +105,8 @@ class IssueResolver
         return $messageError->message;
     }
 
-    private function parseTraceInCaughtException($messageError) {
+    private function parseTraceInCaughtException($messageError)
+    {
         $items = explode("\n", $messageError->message);
         if (count($items) <= 2) {
             return [];

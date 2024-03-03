@@ -53,12 +53,13 @@ class Client
         $message,
         array $context = [],
     ) {
-        $issueResolver = new IssueResolver($this->config, $this->request);
-        $payload = $issueResolver->getPayload($level, $message, $context);
-        $request = new Request();
-        $request->setPayload(PayloadSerializer::serialize($payload));
-        $response = $this->httpClient->sendRequest($request);
-        return $response;
+        if ($this->config->getApiKey()) {
+            $issueResolver = new IssueResolver($this->config, $this->request);
+            $payload = $issueResolver->getPayload($level, $message, $context);
+            $request = new Request();
+            $request->setPayload(PayloadSerializer::serialize($payload));
+            $this->httpClient->sendRequest($request);
+        }
     }
 
     public function log($level, $message, array $context = []): void

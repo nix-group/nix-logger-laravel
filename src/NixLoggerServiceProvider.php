@@ -7,6 +7,7 @@ use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use NixLogger\Request\NixLoggerHttpRequest;
+use NixLogger\Version;
 
 class NixLoggerServiceProvider extends ServiceProvider
 {
@@ -35,7 +36,7 @@ class NixLoggerServiceProvider extends ServiceProvider
         $this->app->bind(NixLogger::class, function () {
             $config = $this->getLoggerConfig();
             $nixLoggerRequest = new NixLoggerHttpRequest();
-            if (! $this->app->runningInConsole()) {
+            if (!$this->app->runningInConsole()) {
                 $request = $this->app->make(Request::class);
                 $nixLoggerRequest->setLaravelRequest($request);
             } else {
@@ -56,6 +57,8 @@ class NixLoggerServiceProvider extends ServiceProvider
         $loggerConfig->setRootPath(base_path());
         $loggerConfig->setTimeZone(config('app.timezone'));
         $loggerConfig->mergeDeviceData(['runtimeVersions' => $this->getRuntimeVersion()]);
+        $loggerConfig->setSdkIdentifier(Version::getSdkIdentifier());
+        $loggerConfig->setVersion(Version::getVersion());
 
         return $loggerConfig;
     }
@@ -93,7 +96,7 @@ class NixLoggerServiceProvider extends ServiceProvider
      */
     protected function setupConfig(Container $app)
     {
-        $source = realpath($raw = __DIR__.'/../config/nix-logger.php') ?: $raw;
+        $source = realpath($raw = __DIR__ . '/../config/nix-logger.php') ?: $raw;
 
         if ($app instanceof LaravelApplication && $app->runningInConsole()) {
             $this->publishes([$source => config_path('nix-logger.php')]);

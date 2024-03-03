@@ -38,6 +38,8 @@ class Item
 
     private $extraData;
 
+    private $sdk;
+
     public function __construct()
     {
         $this->timestamp = microtime(true);
@@ -176,5 +178,17 @@ class Item
     public function getExtraData()
     {
         return $this->extraData;
+    }
+
+    public function setSdk($sdk)
+    {
+        $this->sdk = $sdk;
+
+        return $this;
+    }
+
+    public function getSdk()
+    {
+        return $this->sdk;
     }
 }
