@@ -1,5 +1,5 @@
 {
-    "name": "nix-logger/nix-logger",
+    "name": "nix-logger/nix-logger-laravel",
     "description": "Nix Logger",
     "type": "library",
     "license": "MIT",

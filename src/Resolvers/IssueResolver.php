@@ -2,11 +2,11 @@
 
 namespace NixLogger\Resolvers;
 
-use NixLogger\Configuration;
-use NixLogger\Request\NixLoggerHttpRequest;
-use NixLogger\Entities\Item;
-use Monolog\LogRecord;
 use Exception;
+use Monolog\LogRecord;
+use NixLogger\Configuration;
+use NixLogger\Entities\Item;
+use NixLogger\Request\NixLoggerHttpRequest;
 use NixLogger\Utils\Helper;
 
 class IssueResolver
@@ -46,7 +46,7 @@ class IssueResolver
             $item->setData([
                 'message' => $message,
                 'trace' => $context['exception']->getTrace(),
-                'type'    => 'LogRecord@UnCaughtException',
+                'type' => 'LogRecord@UnCaughtException',
             ]);
         } else {
             if (gettype($messageError) === 'string') {
@@ -59,7 +59,7 @@ class IssueResolver
                     $item->setData([
                         'message' => $this->parseMessageInCaughtException($messageError),
                         'trace' => $this->parseTraceInCaughtException($messageError),
-                        'type'    => 'LogRecord@CaughtException',
+                        'type' => 'LogRecord@CaughtException',
                     ]);
                 } else {
                     $item->setData([
@@ -75,18 +75,21 @@ class IssueResolver
         $item->setRootPath($this->config->getRootPath());
         $item->setEnvironment($this->config->getEnvironment());
         $item->setTimeZone($this->config->getTimeZone());
-        $item->setRequest(
-            [
-                'url' => $this->request->getUrl(),
-                'httpMethod' => $this->request->getHttpMethod(),
-                'params' => $this->request->getParams(),
-                'clientIp' => $this->request->getClientIp(),
-                'userAgent' => $this->request->getUserAgent(),
-                'headers' => $this->request->getHeaders(),
-                'session' => $this->request->getSession(),
-                'cookies' => $this->request->getCookies(),
-            ],
-        );
+        $item->setRunningMode($this->config->getRunningMode());
+        if ($this->config->getRunningMode() === 'web') {
+            $item->setRequest(
+                [
+                    'url' => $this->request->getUrl(),
+                    'httpMethod' => $this->request->getHttpMethod(),
+                    'params' => $this->request->getParams(),
+                    'clientIp' => $this->request->getClientIp(),
+                    'userAgent' => $this->request->getUserAgent(),
+                    'headers' => $this->request->getHeaders(),
+                    'session' => $this->request->getSession(),
+                    'cookies' => $this->request->getCookies(),
+                ],
+            );
+        }
         $item->setDeviceData($this->config->getDeviceData());
         $item->setSdk([
             'identifier' => $this->config->getSdkIdentifier(),
@@ -102,6 +105,7 @@ class IssueResolver
         if (count($items)) {
             return $items[0];
         }
+
         return $messageError->message;
     }
 
@@ -111,6 +115,7 @@ class IssueResolver
         if (count($items) <= 2) {
             return [];
         }
+
         return array_slice($items, 2);
     }
 }

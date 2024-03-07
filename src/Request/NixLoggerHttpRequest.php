@@ -11,7 +11,7 @@ class NixLoggerHttpRequest
     private $httpMethod;
 
     private $params;
-    
+
     private $body;
 
     private $clientIp;
@@ -82,5 +82,4 @@ class NixLoggerHttpRequest
     {
         return $this->cookies;
     }
-
 }

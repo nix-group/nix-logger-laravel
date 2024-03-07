@@ -5,6 +5,7 @@ namespace NixLogger;
 final class Version
 {
     public const SDK_IDENTIFIER = 'nix-logger.php.laravel';
+
     public const SDK_VERSION = '1.0.0';
 
     public static function getSdkIdentifier()

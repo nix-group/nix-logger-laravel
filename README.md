@@ -7,10 +7,12 @@ Install the `nix-logger/nix-logger-laravel` package:
 composer require nix-logger/nix-logger-laravel
 ```
 
-### Update .env:
+### Update .env
 ```bash
+# .env
 NIX_LOGGER_API_KEY=
 APP_ENV=
+NIX_LOGGER_LEVEL=critical,error,warning
 ```
 
 ### Add Log channel:
@@ -26,14 +28,5 @@ In `config/logging.php`, add the `nix-logger` logging channel by adding the foll
   'driver' => 'custom',
   'via' => \NixLogger\Logger\NixMonologLogger::class,
   'api' => env('ROLLBAR_TOKEN'),
-  'levels' => ['debug', 'info', 'warn']
 ],
-```
-
-
-## For Develop
-
-### Format code
-```bash
-./vendor/bin/pint
 ```

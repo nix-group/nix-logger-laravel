@@ -9,7 +9,7 @@ class Configuration
     /**
      * @var string
      */
-    private $endpoint = 'http://localhost:8005/api/v1';
+    private $endpoint = 'aHR0cHM6Ly9hcGkubml4LWxvZ2dlci5kdWN4aW5oLmNvbS9hcGkvdjE=';
 
     /**
      * @var string
@@ -20,6 +20,11 @@ class Configuration
      * @var string
      */
     private $version = '1.0.0';
+
+    /**
+     * @var string
+     */
+    private $loggerReportLevel = 'critical,error,warning';
 
     /**
      * @var string
@@ -59,6 +64,8 @@ class Configuration
 
     protected $timeZone;
 
+    protected $runningMode;
+
     /**
      * Create a new config instance.
      *
@@ -69,12 +76,21 @@ class Configuration
      */
     public function __construct($apiKey)
     {
-        if (!is_string($apiKey)) {
+        if (! is_string($apiKey)) {
             throw new InvalidArgumentException('Invalid API key');
         }
 
         $this->apiKey = $apiKey;
         $this->mergeDeviceData(['runtimeVersions' => ['php' => phpversion()]]);
+        $this->mergeDeviceData([
+            'os' => [
+                'name' => php_uname('s'),
+                'version' => php_uname('r'),
+                'build' => php_uname('v'),
+                'kernel_version' => php_uname('a'),
+                'machine_type' => php_uname('m'),
+            ],
+        ]);
         $this->timeZone = date_default_timezone_get();
     }
 
@@ -98,6 +114,18 @@ class Configuration
     public function getEnvironment()
     {
         return $this->environment;
+    }
+
+    public function setLoggerReportLevel($loggerReportLevel): self
+    {
+        $this->loggerReportLevel = $loggerReportLevel;
+
+        return $this;
+    }
+
+    public function getLoggerReportLevel()
+    {
+        return is_string($this->loggerReportLevel) ? explode(',', $this->loggerReportLevel) : $this->loggerReportLevel;
     }
 
     public function setSdkIdentifier($sdkIdentifier)
@@ -148,6 +176,18 @@ class Configuration
         return $this->timeZone;
     }
 
+    public function setRunningMode($runningMode): self
+    {
+        $this->runningMode = $runningMode;
+
+        return $this;
+    }
+
+    public function getRunningMode()
+    {
+        return $this->runningMode;
+    }
+
     /**
      * Get event notification endpoint.
      *
@@ -155,7 +195,7 @@ class Configuration
      */
     public function endpoint()
     {
-        return $this->endpoint;
+        return base64_decode($this->endpoint);
     }
 
     /**
@@ -165,7 +205,7 @@ class Configuration
      */
     public function buildPostItemUri()
     {
-        return $this->endpoint . '/issues';
+        return $this->endpoint().'/issues';
     }
 
     /**
@@ -178,7 +218,7 @@ class Configuration
         return [
             'Content-Type: application/json',
             'Accept: application/json',
-            'api-key: ' . $this->apiKey,
+            'api-key: '.$this->apiKey,
         ];
     }
 
@@ -280,11 +320,11 @@ class Configuration
     {
         $disabled = explode(',', ini_get('disable_functions'));
 
-        if (function_exists('php_uname') && !in_array('php_uname', $disabled, true)) {
+        if (function_exists('php_uname') && ! in_array('php_uname', $disabled, true)) {
             return ['hostname' => php_uname('n')];
         }
 
-        if (function_exists('gethostname') && !in_array('gethostname', $disabled, true)) {
+        if (function_exists('gethostname') && ! in_array('gethostname', $disabled, true)) {
             return ['hostname' => gethostname()];
         }
 

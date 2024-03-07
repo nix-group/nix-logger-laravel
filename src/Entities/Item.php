@@ -30,6 +30,8 @@ class Item
 
     private $timeZone;
 
+    private $runningMode;
+
     private $request;
 
     private $deviceData;
@@ -44,7 +46,6 @@ class Item
     {
         $this->timestamp = microtime(true);
     }
-
 
     /**
      * Gets the timestamp of when this event was generated.
@@ -100,10 +101,10 @@ class Item
         return $this;
     }
 
-
     public function setContext($context)
     {
         $this->context = $context;
+
         return $this;
     }
 
@@ -115,6 +116,7 @@ class Item
     public function setRootPath($rootPath)
     {
         $this->rootPath = $rootPath;
+
         return $this;
     }
 
@@ -123,11 +125,10 @@ class Item
         return $this->rootPath;
     }
 
-
-
     public function setTimeZone($timeZone)
     {
         $this->timeZone = $timeZone;
+
         return $this;
     }
 
@@ -136,9 +137,22 @@ class Item
         return $this->timeZone;
     }
 
+    public function setRunningMode($runningMode)
+    {
+        $this->runningMode = $runningMode;
+
+        return $this;
+    }
+
+    public function getRunningMode()
+    {
+        return $this->runningMode;
+    }
+
     public function setRequest($request)
     {
         $this->request = $request;
+
         return $this;
     }
 
@@ -150,6 +164,7 @@ class Item
     public function setDeviceData($deviceData)
     {
         $this->deviceData = $deviceData;
+
         return $this;
     }
 
@@ -161,6 +176,7 @@ class Item
     public function setData($data)
     {
         $this->data = $data;
+
         return $this;
     }
 
@@ -172,6 +188,7 @@ class Item
     public function setExtraData($extraData)
     {
         $this->extraData = $extraData;
+
         return $this;
     }
 

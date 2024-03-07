@@ -19,6 +19,7 @@ final class PayloadSerializer implements PayloadSerializerInterface
             'rootPath' => $item->getRootPath(),
             'environment' => $item->getEnvironment(),
             'timeZone' => $item->getTimeZone(),
+            'runningMode' => $item->getRunningMode(),
             'request' => $item->getRequest(),
             'deviceData' => $item->getDeviceData(),
             'data' => $item->getData(),
