@@ -1,12 +1,14 @@
 <?php
 
-namespace NixLogger;
+namespace NixLogger\Laravel;
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
-use NixLogger\Request\NixLoggerHttpRequest;
+use NixLogger\Configuration;
+use NixLogger\Client;
+use NixLogger\Laravel\Request\NixLoggerLaravelHttpRequest;
 
 class NixLoggerServiceProvider extends ServiceProvider
 {
@@ -34,7 +36,7 @@ class NixLoggerServiceProvider extends ServiceProvider
     {
         $this->app->bind(NixLogger::class, function () {
             $config = $this->getLoggerConfig();
-            $nixLoggerRequest = new NixLoggerHttpRequest();
+            $nixLoggerRequest = new NixLoggerLaravelHttpRequest();
             if (! $this->app->runningInConsole()) {
                 $request = $this->app->make(Request::class);
                 $nixLoggerRequest->setLaravelRequest($request);

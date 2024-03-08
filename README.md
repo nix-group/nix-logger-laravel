@@ -6,17 +6,30 @@ Install the `nix-logger/nix-logger-laravel` package:
 ```bash
 composer require nix-logger/nix-logger-laravel
 ```
+### Add the service provider to the `providers` array in `config/app.php` before your `AppServiceProvider::class`
+```php
+NixLogger\Laravel\NixLoggerServiceProvider::class,
+```
+### Add the Facade to the `aliases` array in `config/app.php`
+```php
+'NixLogger' => NixLogger\Laravel\Facades\NixLogger::class,
+```
 
-### Update .env
+
+### Configuration
+Configure your Nix-Logger by edit the `.env` file
 ```bash
 # .env
 NIX_LOGGER_API_KEY=
 APP_ENV=
 NIX_LOGGER_LEVEL=critical,error,warning
 ```
+If you’d like to configure Nix-Logger further, create and edit a `config/nix-logger.php` file
 
-### Add Log channel:
-In `config/logging.php`, add the `nix-logger` logging channel by adding the following under the channels key:
+
+
+### Setting Log report
+In `config/logging.php`, add the `nix-logger` logging channel by adding the following under the `channels` key:
 ```php
 'stack' => [
     'driver' => 'stack',
@@ -26,7 +39,6 @@ In `config/logging.php`, add the `nix-logger` logging channel by adding the foll
 
 'nix-logger' => [
   'driver' => 'custom',
-  'via' => \NixLogger\Logger\NixMonologLogger::class,
-  'api' => env('ROLLBAR_TOKEN'),
+  'via' => \NixLogger\Laravel\Logger\NixLogger::class,
 ],
 ```

@@ -1,6 +1,6 @@
 <?php
 
-namespace NixLogger\Facades;
+namespace NixLogger\Laravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use NixLogger\NixLogger as BaseNixLogger;
