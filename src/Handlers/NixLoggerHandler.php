@@ -1,11 +1,11 @@
 <?php
 
-namespace NixLogger\Handlers;
+namespace NixLogger\Laravel\Handlers;
 
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 use Monolog\LogRecord;
-use NixLogger\NixLogger;
+use NixLogger\Laravel\NixLogger;
 
 class NixLoggerHandler extends AbstractProcessingHandler
 {
@@ -16,6 +16,6 @@ class NixLoggerHandler extends AbstractProcessingHandler
 
     protected function write(LogRecord $record): void
     {
-        app(NixLogger::class)->reportUncaught($record);
+        app(NixLogger::class)->reportUncaught($record); 
     }
 }

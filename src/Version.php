@@ -1,6 +1,6 @@
 <?php
 
-namespace NixLogger;
+namespace NixLogger\Laravel;
 
 final class Version
 {
@@ -18,3 +18,4 @@ final class Version
         return self::SDK_VERSION;
     }
 }
+ 

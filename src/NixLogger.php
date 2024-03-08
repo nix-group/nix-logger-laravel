@@ -1,6 +1,6 @@
 <?php
 
-namespace NixLogger;
+namespace NixLogger\Laravel;
 
 class NixLogger
 {
