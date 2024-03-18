@@ -42,3 +42,19 @@ In `config/logging.php`, add the `nix-logger` logging channel by adding the foll
   'via' => \NixLogger\Laravel\Logger\NixLogger::class,
 ],
 ```
+
+## For `stderr`
+```php
+'channels' => [
+    'stderr' => [
+        'driver' => 'monolog',
+        'level' => env('LOG_LEVEL', 'debug'),
+        'handler' => \NixLogger\Laravel\Handlers\NixLoggerStreamHandler::class,
+        'formatter' => env('LOG_STDERR_FORMATTER'),
+        'with' => [
+            'stream' => 'php://stderr',
+        ],
+        'processors' => [PsrLogMessageProcessor::class],
+    ],
+]
+```
