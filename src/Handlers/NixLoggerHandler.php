@@ -16,6 +16,6 @@ class NixLoggerHandler extends AbstractProcessingHandler
 
     protected function write(LogRecord $record): void
     {
-        app(NixLogger::class)->reportUncaught($record); 
+        app(NixLogger::class)->reportUncaught($record);
     }
 }

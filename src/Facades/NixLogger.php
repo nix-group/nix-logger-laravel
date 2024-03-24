@@ -3,7 +3,7 @@
 namespace NixLogger\Laravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use NixLogger\NixLogger as BaseNixLogger;
+use NixLogger\Laravel\NixLogger as BaseNixLogger;
 
 class NixLogger extends Facade
 {

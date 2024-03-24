@@ -58,3 +58,9 @@ In `config/logging.php`, add the `nix-logger` logging channel by adding the foll
     ],
 ]
 ```
+
+
+## Usage
+```php
+\NixLogger::debug('Test');
+```

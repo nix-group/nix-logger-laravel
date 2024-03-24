@@ -18,4 +18,3 @@ final class Version
         return self::SDK_VERSION;
     }
 }
- 

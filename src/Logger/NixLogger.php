@@ -16,7 +16,7 @@ class NixLogger
     {
         $logger = new Logger('custom');
         $logger->pushHandler(new NixLoggerHandler());
- 
+
         return $logger;
     }
 }

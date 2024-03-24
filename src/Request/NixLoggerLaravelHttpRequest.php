@@ -2,9 +2,9 @@
 
 namespace NixLogger\Laravel\Request;
 
+use Exception;
 use Illuminate\Http\Request;
 use NixLogger\Request\NixLoggerHttpRequest;
-use Exception;
 
 class NixLoggerLaravelHttpRequest extends NixLoggerHttpRequest
 {

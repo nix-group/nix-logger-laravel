@@ -2,9 +2,9 @@
 
 namespace NixLogger\Laravel\Handlers;
 
+use Monolog\Handler\StreamHandler;
 use Monolog\LogRecord;
 use NixLogger\Laravel\NixLogger;
-use Monolog\Handler\StreamHandler;
 
 class NixLoggerStreamHandler extends StreamHandler
 {

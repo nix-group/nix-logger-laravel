@@ -6,8 +6,8 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
-use NixLogger\Configuration;
 use NixLogger\Client;
+use NixLogger\Configuration;
 use NixLogger\Laravel\Request\NixLoggerLaravelHttpRequest;
 
 class NixLoggerServiceProvider extends ServiceProvider
