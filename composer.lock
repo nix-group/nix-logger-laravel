@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cd2627c9f9ac9f6178996f4057ebce90",
+    "content-hash": "8f58327a616ffb44279f662fb2923d3b",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -642,16 +642,16 @@
         },
         {
             "name": "nix-logger/nix-logger",
-            "version": "v1.0",
+            "version": "v1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nix-group/nix-logger-php.git",
-                "reference": "a8d55058249f5cca74caad71f682f276541e6a33"
+                "reference": "023f481c4ecd4c3119a56e0f094f2f8219076227"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nix-group/nix-logger-php/zipball/a8d55058249f5cca74caad71f682f276541e6a33",
-                "reference": "a8d55058249f5cca74caad71f682f276541e6a33",
+                "url": "https://api.github.com/repos/nix-group/nix-logger-php/zipball/023f481c4ecd4c3119a56e0f094f2f8219076227",
+                "reference": "023f481c4ecd4c3119a56e0f094f2f8219076227",
                 "shasum": ""
             },
             "require": {
@@ -678,9 +678,9 @@
             "description": "Nix Logger PHP",
             "support": {
                 "issues": "https://github.com/nix-group/nix-logger-php/issues",
-                "source": "https://github.com/nix-group/nix-logger-php/tree/v1.0"
+                "source": "https://github.com/nix-group/nix-logger-php/tree/v1.1"
             },
-            "time": "2024-03-08T00:27:03+00:00"
+            "time": "2024-03-27T08:16:28+00:00"
         },
         {
             "name": "psr/clock",
