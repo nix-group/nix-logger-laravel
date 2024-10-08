@@ -8,7 +8,10 @@ use NixLogger\Laravel\NixLogger;
 
 class NixLoggerStreamHandler extends StreamHandler
 {
-    protected function write(LogRecord $record): void
+    /**
+     * \Monolog\LogRecord | array: $record
+     */
+    protected function write($record): void
     {
         app(NixLogger::class)->reportUncaught($record);
         parent::write($record);

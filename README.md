@@ -6,13 +6,41 @@ Install the `nix-logger/nix-logger-laravel` package:
 ```bash
 composer require nix-logger/nix-logger-laravel
 ```
-### Add the service provider to the `providers` array in `config/app.php` before your `AppServiceProvider::class`
+### Add the service provider 
+Add provider `NixLogger\Laravel\NixLoggerServiceProvider::class`
+- For Laravel < 11, update `config/app.php
 ```php
-NixLogger\Laravel\NixLoggerServiceProvider::class,
+// config/app.php
+'providers' => [
+    Illuminate\Auth\AuthServiceProvider::class,
+    NixLogger\Laravel\NixLoggerServiceProvider::class,
+]
 ```
-### Add the Facade to the `aliases` array in `config/app.php`
+- For Laravel >= 11, update `bootstrap/providers.php`
 ```php
-'NixLogger' => NixLogger\Laravel\Facades\NixLogger::class,
+// bootstrap/providers.php
+return [
+    Illuminate\Auth\AuthServiceProvider::class,
+    NixLogger\Laravel\NixLoggerServiceProvider::class,
+];
+```
+
+### Add the Facade
+- For Laravel < 11, update `config/app.php`
+```php
+// config/app.php
+'aliases' => [
+    'NixLogger' => NixLogger\Laravel\Facades\NixLogger::class,
+]
+```
+- For Laravel >= 11, update `bootstrap/app.php`
+```php
+// bootstrap/app.php
+->withMiddleware(function (Middleware $middleware) {
+    $middleware->alias([
+        'NixLogger' => NixLogger\Laravel\Facades\NixLogger::class,
+    ]);
+})
 ```
 
 
