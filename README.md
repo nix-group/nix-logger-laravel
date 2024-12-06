@@ -89,6 +89,19 @@ In `config/logging.php`, add the `nix-logger` logging channel by adding the foll
 
 
 ## Usage
+### Use NixLogger Debug
 ```php
 \NixLogger::debug('Test');
 ```
+
+### Text with example exception
+```php
+Route::get('/error', function () {
+    throw new Exception('This is a test exception');
+    
+    return [
+        'message' => 'This is a test response',
+    ];
+});
+```
+Open browser and navigate to [http://localhost:8000/error](http://localhost:8000/error)
