@@ -48,9 +48,11 @@ return [
 Configure your Nix-Logger by edit the `.env` file
 ```bash
 # .env
-NIX_LOGGER_API_KEY=
-APP_ENV=
+NIX_LOGGER_API_KEY=""
 NIX_LOGGER_LEVEL=critical,error,warning
+LOG_CHANNEL="stack"
+LOG_STACK="daily,nix-logger"
+# APP_ENV=
 ```
 If you’d like to configure Nix-Logger further, create and edit a `config/nix-logger.php` file
 
