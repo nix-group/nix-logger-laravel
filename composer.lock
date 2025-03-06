@@ -642,16 +642,16 @@
         },
         {
             "name": "nix-logger/nix-logger",
-            "version": "v1.3.4",
+            "version": "v1.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nix-group/nix-logger-php.git",
-                "reference": "864e112f084e3ffd52d88cd62466669b954fbb1e"
+                "reference": "31ae89127b4bd57f5f27e48cb2f1fd8ac68e98c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nix-group/nix-logger-php/zipball/864e112f084e3ffd52d88cd62466669b954fbb1e",
-                "reference": "864e112f084e3ffd52d88cd62466669b954fbb1e",
+                "url": "https://api.github.com/repos/nix-group/nix-logger-php/zipball/31ae89127b4bd57f5f27e48cb2f1fd8ac68e98c7",
+                "reference": "31ae89127b4bd57f5f27e48cb2f1fd8ac68e98c7",
                 "shasum": ""
             },
             "require": {
@@ -677,9 +677,9 @@
             "description": "Nix Logger PHP",
             "support": {
                 "issues": "https://github.com/nix-group/nix-logger-php/issues",
-                "source": "https://github.com/nix-group/nix-logger-php/tree/v1.3.4"
+                "source": "https://github.com/nix-group/nix-logger-php/tree/v1.3.5"
             },
-            "time": "2024-12-24T03:54:22+00:00"
+            "time": "2025-03-06T03:22:14+00:00"
         },
         {
             "name": "psr/clock",
