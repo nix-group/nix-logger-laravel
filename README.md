@@ -8,6 +8,11 @@ composer require nix-logger/nix-logger-laravel
 ```
 ### Add the service provider 
 Add provider `NixLogger\Laravel\NixLoggerServiceProvider::class`
+#### Check Version
+```bash
+php artisan --version
+# Laravel Framework xx.xx.xx
+```
 - For Laravel < 11, update `config/app.php
 ```php
 // config/app.php
