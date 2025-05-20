@@ -98,7 +98,7 @@ In `config/logging.php`, add the `nix-logger` logging channel by adding the foll
 ## Usage
 ### Use NixLogger Debug
 ```php
-\NixLogger::debug('Test');
+\NixLogger::error('Test Error');
 ```
 
 ### Text with example exception
