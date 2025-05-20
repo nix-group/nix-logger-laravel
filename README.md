@@ -97,6 +97,9 @@ In `config/logging.php`, add the `nix-logger` logging channel by adding the foll
 
 ## Usage
 ### Use NixLogger Debug
+```bash
+php artisan tinker
+```
 ```php
 \NixLogger::error('Test Error');
 ```
