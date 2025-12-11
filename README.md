@@ -68,7 +68,7 @@ In `config/logging.php`, add the `nix-logger` logging channel by adding the foll
 ```php
 'stack' => [
     'driver' => 'stack',
-    'channels' => ['single', 'nix-logger'],
+    'channels' => explode(',', env('LOG_STACK', 'single')),
     'ignore_exceptions' => false,
 ],
 
