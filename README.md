@@ -8,6 +8,11 @@ composer require nix-logger/nix-logger-laravel
 ```
 ### Add the service provider 
 Add provider `NixLogger\Laravel\NixLoggerServiceProvider::class`
+#### Check Version
+```bash
+php artisan --version
+# Laravel Framework xx.xx.xx
+```
 - For Laravel < 11, update `config/app.php
 ```php
 // config/app.php
@@ -63,7 +68,7 @@ In `config/logging.php`, add the `nix-logger` logging channel by adding the foll
 ```php
 'stack' => [
     'driver' => 'stack',
-    'channels' => ['single', 'nix-logger'],
+    'channels' => explode(',', env('LOG_STACK', 'single')),
     'ignore_exceptions' => false,
 ],
 
@@ -92,8 +97,11 @@ In `config/logging.php`, add the `nix-logger` logging channel by adding the foll
 
 ## Usage
 ### Use NixLogger Debug
+```bash
+php artisan tinker
+```
 ```php
-\NixLogger::debug('Test');
+\NixLogger::error('Test Error');
 ```
 
 ### Text with example exception
