@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use NixLogger\Client;
 use NixLogger\Configuration;
+use NixLogger\Context\ExecutionContext;
+use NixLogger\HttpClient\HttpClientInterface;
+use NixLogger\Laravel\Listeners\ExecutionContextSubscriber;
 use NixLogger\Laravel\Request\NixLoggerLaravelHttpRequest;
 
 class NixLoggerServiceProvider extends ServiceProvider
@@ -27,6 +30,10 @@ class NixLoggerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->setupConfig($this->app);
+
+        if ($this->getConfig()['capture_execution_context'] ?? true) {
+            $this->app['events']->subscribe(ExecutionContextSubscriber::class);
+        }
     }
 
     /**
@@ -34,16 +41,20 @@ class NixLoggerServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Shared for the whole process: the subscriber writes it, every client reads it.
+        $this->app->singleton(ExecutionContext::class);
+
         $this->app->bind(NixLogger::class, function () {
             $config = $this->getLoggerConfig();
             $nixLoggerRequest = new NixLoggerLaravelHttpRequest();
             if (! $this->app->runningInConsole()) {
                 $request = $this->app->make(Request::class);
                 $nixLoggerRequest->setLaravelRequest($request);
-            } else {
-                // todo
             }
-            $client = new Client($config, $nixLoggerRequest);
+            $httpClient = $this->app->bound(HttpClientInterface::class)
+                ? $this->app->make(HttpClientInterface::class)
+                : null;
+            $client = new Client($config, $nixLoggerRequest, $this->app->make(ExecutionContext::class), $httpClient);
 
             return $client;
         });
