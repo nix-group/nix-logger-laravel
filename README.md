@@ -95,6 +95,31 @@ In `config/logging.php`, add the `nix-logger` logging channel by adding the foll
 ```
 
 
+## Console commands, queued jobs and scheduled tasks
+HTTP issues carry their request. Issues reported from the console carry what was running instead, in `extraData`:
+
+| Key | Filled while | Fields |
+| --- | --- | --- |
+| `command` | an artisan command runs (`queue:work`, `schedule:run`, your batches...) | `name`, `input`, `pid`, `exitCode` (failed command) |
+| `job` | a queued job is processed (worker or `sync` connection) | `name`, `id`, `uuid`, `connection`, `queue`, `attempts`, `maxTries`, `timeout`, `batchId`, `pushedAt` |
+| `scheduledTask` | the scheduler runs a task | `name`, `command`, `expression`, `timezone`, `withoutOverlapping`, `onOneServer`, `runInBackground` |
+| `commandStack`, `jobStack` | executions are nested (`Artisan::call()` inside a command...) | names, outer → inner |
+
+```json
+{
+  "runningMode": "cli",
+  "extraData": {
+    "command": { "name": "queue:work", "input": "'queue:work' --queue=stock", "pid": 4182 },
+    "job": { "name": "App\\Jobs\\SyncStock", "id": "1532", "uuid": "9f0c...", "connection": "database", "queue": "stock", "attempts": 2, "maxTries": 3 }
+  }
+}
+```
+Nothing to configure. To turn it off:
+```bash
+NIX_LOGGER_CAPTURE_EXECUTION_CONTEXT=false
+```
+A command run with `$this->call()` from another command is not tracked separately (Laravel fires no event for it): its issues carry the outer command. `Artisan::call()` is tracked.
+
 ## Usage
 ### Use NixLogger Debug
 ```bash
@@ -103,6 +128,18 @@ php artisan tinker
 ```php
 \NixLogger::error('Test Error');
 ```
+
+### Log a caught exception
+Always pass the exception as `exception` in the context: NixLogger builds the trace from it, and keeps your message in front of the exception message.
+```php
+try {
+    $task->run();
+} catch (Throwable $e) {
+    // Issue message: "IF_TOOL_RUN_THREW: pdb_sku_jan_issue | Exception: ... in /app/...:107"
+    Log::error('IF_TOOL_RUN_THREW: pdb_sku_jan_issue', ['exception' => $e, 'run_id' => $runId]);
+}
+```
+Putting `$e->getTraceAsString()` in the context instead sends no trace, only a string.
 
 ### Text with example exception
 ```php
@@ -115,3 +152,14 @@ Route::get('/error', function () {
 });
 ```
 Open browser and navigate to [http://localhost:8000/error](http://localhost:8000/error)
+
+## Testing
+```bash
+composer install
+composer test
+```
+To test against a local checkout of `nix-logger/nix-logger` (sibling folder `../nix-logger-php`), use a `composer.local.json` with a path repository (ignored by git):
+```bash
+COMPOSER=composer.local.json composer update
+vendor/bin/phpunit
+```

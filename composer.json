@@ -14,17 +14,16 @@
         "illuminate/contracts": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
         "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
         "monolog/monolog": "^2 || ^3",
-        "nix-logger/nix-logger": "^1.3"
+        "nix-logger/nix-logger": "^1.4"
     },
     "autoload": {
         "psr-4": {
             "NixLogger\\Laravel\\": "src/"
         }
     },
-
     "autoload-dev": {
         "psr-4": {
-            "NixLogger\\Laravel\\": "tests/"
+            "NixLogger\\Laravel\\Tests\\": "tests/"
         }
     },
     "extra": {
@@ -38,6 +37,11 @@
         }
     },
     "require-dev": {
-        "laravel/pint": "^1.13"
+        "laravel/pint": "^1.13",
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.5|^11.0"
+    },
+    "scripts": {
+        "test": "phpunit"
     }
 }

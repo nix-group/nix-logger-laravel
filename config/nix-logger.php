@@ -15,4 +15,16 @@ return [
     |
     */
     'logger_report_level' => env('NIX_LOGGER_LEVEL', 'critical,error,warning'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Capture execution context
+    |--------------------------------------------------------------------------
+    |
+    | Attach the running console command, queued job and scheduled task to
+    | every reported issue (sent as `extraData`).
+    | Default: true.
+    |
+    */
+    'capture_execution_context' => env('NIX_LOGGER_CAPTURE_EXECUTION_CONTEXT', true),
 ];

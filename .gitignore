@@ -1,1 +1,4 @@
 vendor
+composer.local.json
+composer.local.lock
+.phpunit.cache

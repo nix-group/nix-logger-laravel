@@ -6,7 +6,7 @@ final class Version
 {
     public const SDK_IDENTIFIER = 'nix-logger.php.laravel';
 
-    public const SDK_VERSION = '1.3.7';
+    public const SDK_VERSION = '1.4.0';
 
     public static function getSdkIdentifier()
     {
